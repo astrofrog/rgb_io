@@ -1,3 +1,6 @@
+# Pure-python JPEG parser
+# Copyright (c) 2013 Thomas P. Robitaille
+
 import struct
 
 # Define common markers
@@ -44,6 +47,9 @@ class JPEGSegment(object):
         self.bytes = bytes
         return self
 
+    def write(self, fileobj):
+        fileobj.write(self.bytes)
+
 
 class JPEGFile(object):
 
@@ -83,8 +89,6 @@ class JPEGFile(object):
     def write(self, filename):
 
         fileobj = open(filename, 'wb')
-
-        fileobj.write(JPEG_SIGNATURE)
 
         for segment in self.segments:
             segment.write(fileobj)
